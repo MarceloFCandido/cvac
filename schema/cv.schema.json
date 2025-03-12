@@ -1,0 +1,395 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CV Schema",
+  "description": "A schema for representing a Curriculum Vitae",
+  "type": "object",
+  "required": ["personalInfo", "workExperience", "education"],
+  "properties": {
+    "personalInfo": {
+      "type": "object",
+      "required": ["firstName", "lastName", "email", "location"],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First name"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name"
+        },
+        "middleName": {
+          "type": "string",
+          "description": "Middle name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number"
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "city": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "postalCode": {
+              "type": "string"
+            }
+          }
+        },
+        "linkedIn": {
+          "type": "string",
+          "format": "uri"
+        },
+        "personalWebsite": {
+          "type": "string",
+          "format": "uri"
+        },
+        "githubUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "professionalSummary": {
+      "type": "string",
+      "description": "Brief professional summary or objective statement"
+    },
+    "workExperience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["position", "company", "startDate"],
+        "properties": {
+          "position": {
+            "type": "string",
+            "description": "Job title"
+          },
+          "company": {
+            "type": "string",
+            "description": "Company name"
+          },
+          "location": {
+            "type": "string",
+            "description": "Job location"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "current": {
+            "type": "boolean",
+            "description": "Whether this is the current position"
+          },
+          "description": {
+            "type": "string",
+            "description": "Role description"
+          },
+          "achievements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Key achievements in the role"
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Technologies or tools used"
+          }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["degree", "institution", "graduationDate"],
+        "properties": {
+          "degree": {
+            "type": "string",
+            "description": "Degree name"
+          },
+          "field": {
+            "type": "string",
+            "description": "Field of study"
+          },
+          "institution": {
+            "type": "string",
+            "description": "Educational institution"
+          },
+          "location": {
+            "type": "string"
+          },
+          "graduationDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "gpa": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "honors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "relevantCourses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the skill"
+          },
+          "level": {
+            "type": "string",
+            "enum": ["beginner", "intermediate", "advanced", "expert"]
+          },
+          "yearsOfExperience": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["language", "proficiency"],
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "proficiency": {
+            "type": "string",
+            "enum": ["A1", "A2", "B1", "B2", "C1", "C2"],
+            "description": "CEFR proficiency level"
+          }
+        }
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "issuer", "dateObtained"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Certification name"
+          },
+          "issuer": {
+            "type": "string",
+            "description": "Certification issuer"
+          },
+          "dateObtained": {
+            "type": "string",
+            "format": "date"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "credentialId": {
+            "type": "string"
+          },
+          "credentialUrl": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "publications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "date"],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "doi": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "awards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "date"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "volunteerWork": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["organization", "role"],
+        "properties": {
+          "organization": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "relationship"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "relationship": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "lastUpdated": {
+          "type": "string",
+          "format": "date"
+        },
+        "version": {
+          "type": "string"
+        },
+        "template": {
+          "type": "string",
+          "description": "CV template or format being used"
+        }
+      }
+    }
+  }
+}
