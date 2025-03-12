@@ -41,7 +41,7 @@ python src/cv-to-docx.py data/cv.json resume-generated.docx
 
 ## Requirements
 
-- Python 3.6+
+- Python 3.12+
 - python-docx library
 
 ## License
