@@ -1,4 +1,4 @@
-# Resume Automation
+# CV Express
 
 Automated CV/Resume generation using JSON data and GitHub Actions.
 
