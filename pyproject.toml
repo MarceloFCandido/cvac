@@ -1,0 +1,12 @@
+[project]
+name = "cvac"
+version = "0.1.0"
+dependencies = [
+    "python-docx>=0.8.11",
+    "jsonschema>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+]
