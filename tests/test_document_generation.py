@@ -1,9 +1,14 @@
 import pytest
 import os
 import json
+import sys
+
+# Add src to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
 from docx import Document
-from cv_to_docx import CVData, DocxGenerator
-from style import STYLE_CONFIG
+from cvac.cv_to_docx import CVData, DocxGenerator
+from cvac.core.style_loader import StyleLoader
 
 @pytest.fixture
 def cv_data_instance(tmp_path):
@@ -44,7 +49,10 @@ def cv_data_instance(tmp_path):
 
 def test_document_generation(cv_data_instance, tmp_path):
     output_path = tmp_path / "test_cv.docx"
-    generator = DocxGenerator(cv_data_instance, STYLE_CONFIG)
+    # Use StyleLoader to get properly converted style config
+    style_loader = StyleLoader()
+    style_config = style_loader.load_style()  # This will convert units properly
+    generator = DocxGenerator(cv_data_instance, style_config)
     generator.generate(str(output_path))
 
     assert os.path.exists(output_path)

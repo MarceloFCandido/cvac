@@ -1,6 +1,6 @@
 # CVaC: CV-as-Code
 
-Automate your CV/Resume generation from structured JSON data into a professional DOCX format with an opinionated, yet customizable, style.
+Automate your CV/Resume generation from structured JSON or YAML data into a professional DOCX format with customizable styling.
 
 ## Overview
 
@@ -8,16 +8,16 @@ CVaC provides a robust solution for managing your Curriculum Vitae or Resume as 
 
 ## Features
 
-- **JSON-driven CV Data:** Define your entire CV content in a single, easy-to-manage JSON file.
-- **Schema Validation:** Your CV data is validated against a JSON schema (`schema/cv.schema.json`) to ensure correctness and consistency.
-- **DOCX Output:** Generates a professional and customizable `.docx` file, compatible with standard word processors.
-- **Customizable Styling:** Easily adjust document styles (fonts, sizes, margins, spacing) via `src/style.py` to match your personal brand.
+- **JSON and YAML Support:** Define your CV content in either JSON or YAML format.
+- **Bidirectional Conversion:** Convert between JSON and YAML formats seamlessly.
+- **Schema Validation:** CV data is validated against a JSON schema to ensure correctness.
+- **DOCX Output:** Generates professional `.docx` files compatible with standard word processors.
+- **External Style Configuration:** Customize document styling via external JSON/YAML files.
+- **Unified CLI:** Single command-line interface for all operations (generate, convert, validate).
 
 ## Usage
 
-### As a CLI
-
-To generate your CV locally, follow these steps:
+### Installation
 
 1.  **Clone the repository:**
     ```bash
@@ -26,20 +26,124 @@ To generate your CV locally, follow these steps:
     ```
 
 2.  **Install Dependencies:**
-    Ensure you have Python 3.8+ installed. Then, install the required Python packages:
+    Ensure you have Python 3.8+ installed. Then, install the package:
     ```bash
     pip install -e .
     ```
 
-3.  **Prepare your CV Data:**
-    Create your CV data in a JSON file (e.g., `my_cv.json`) following the structure defined in `schema/cv.schema.json`.
+### Command Line Interface
 
-4.  **Generate the DOCX File:**
-    Run the main script, providing your JSON file as input and specifying an output DOCX file name:
-    ```bash
-    python src/cv_to_docx.py my_cv.json output_resume.docx
-    ```
-    If `output_resume.docx` is not provided, it defaults to `resume-generated.docx`.
+CVaC provides a unified CLI with multiple commands:
+
+#### Generate CV Document
+
+Generate a DOCX file from your CV data (JSON or YAML):
+
+```bash
+# Basic usage
+cvac generate my_cv.yaml resume.docx
+
+# With custom styling
+cvac generate my_cv.json resume.docx --style custom_style.yaml
+
+# Using the Python module directly
+python -m src.cvac generate my_cv.yaml resume.docx
+```
+
+#### Convert Between Formats
+
+Convert between JSON and YAML formats:
+
+```bash
+# JSON to YAML
+cvac convert cv.json cv.yaml
+
+# YAML to JSON
+cvac convert cv.yaml cv.json --pretty
+```
+
+#### Validate CV Data
+
+Validate your CV data against the schema:
+
+```bash
+cvac validate my_cv.yaml
+```
+
+### Prepare Your CV Data
+
+Create your CV data in either JSON or YAML format following the structure defined in `schema/cv.schema.json`.
+
+Example YAML format:
+```yaml
+personalInfo:
+  firstName: John
+  lastName: Doe
+  email: john.doe@example.com
+  location:
+    city: San Francisco
+    country: USA
+
+workExperience:
+  - company: Tech Corp
+    position: Senior Developer
+    startDate: "2020-01"
+    current: true
+    achievements:
+      - Led team of 5 developers
+      - Improved performance by 50%
+
+education:
+  - institution: University Name
+    degree: Bachelor of Science
+    field: Computer Science
+    graduationDate: "2019-05"
+
+skills:
+  - Python
+  - JavaScript
+  - Docker
+  # Skills can also be detailed objects:
+  # - name: Python
+  #   level: expert
+  #   yearsOfExperience: 5
+
+languages:
+  - language: English
+    native: true
+  - language: Spanish
+    proficiency: B2  # A1-C2 CEFR levels
+```
+
+### Custom Styling
+
+Create a custom style file (JSON or YAML) to override default styling:
+
+```json
+{
+  "font_name": "Arial",
+  "font_size": 11,
+  "name_font_size": 16,
+  "margins": {
+    "top": 20,
+    "bottom": 20,
+    "left": 25,
+    "right": 25
+  }
+}
+```
+
+Then use it when generating:
+```bash
+cvac generate cv.yaml resume.docx --style my_style.json
+```
+
+### Backwards Compatibility
+
+The original `cv_to_docx.py` script is maintained for backwards compatibility:
+```bash
+python cv_to_docx.py my_cv.json output_resume.docx
+```
 
 ### As a Git Submodule
 
@@ -105,7 +209,7 @@ You can integrate CVaC into another Git repository as a submodule, which is usef
           
           - name: Generate DOCX resume
             run: |
-              python cvac/src/cv_to_docx.py data/cv.json resume.docx # Use the script from the submodule
+              python cvac/cvac.py generate data/cv.json resume.docx # Use the script from the submodule
           
           - name: Convert DOCX to PDF
             run: |
@@ -144,40 +248,59 @@ You can integrate CVaC into another Git repository as a submodule, which is usef
 
 The `cv.schema.json` file defines the expected structure and types for your CV data. It ensures that your JSON input is valid before document generation. Refer to this file to understand the available fields for personal information, work experience, education, skills, languages, and more.
 
-## Customizing Styles (`src/style.py`)
+## Customizing Styles
 
-The `src/style.py` file contains the `STYLE_CONFIG` dictionary, which allows you to customize various aspects of the generated DOCX document, including:
+CVaC now supports external style configuration files in JSON or YAML format. You can customize:
 
--   `font_name` and `font_size`
--   `name_font_size` (for your full name)
--   `margins` (top, bottom, left, right)
--   `paragraph_spacing` (before, after, line_spacing)
--   `bullet_style` (indentation, spacing for bullet points)
+- Font family and sizes
+- Document margins  
+- Paragraph spacing
+- Bullet point styling
 
-Modify these values to tailor the appearance of your CV.
+See `examples/modern_style.json` and `examples/elegant_style.yaml` for examples.
 
 ## Project Structure
 
 ```
 cvac/
-├───.gitignore
-├───pyproject.toml
-├───README.md
-├───schema/
-│   └───cv.schema.json          # JSON schema for CV data validation
-├───src/
-│   ├───__init__.py
-│   ├───cv_to_docx.py           # Main script for DOCX generation
-│   └───style.py                # Document styling configurations
-└───tests/
-    ├───test_data_validation.py # Tests for JSON data validation
-    └───test_document_generation.py # Tests for document generation logic
+├── .gitignore
+├── pyproject.toml
+├── README.md
+├── schema/
+│   └── cv.schema.json          # JSON schema for CV data validation
+├── src/
+│   ├── __init__.py
+│   ├── cvac.py                 # Main CLI entry point
+│   ├── cv_to_docx.py           # Legacy script (backwards compatibility)
+│   ├── style.py                # Default styling configuration
+│   ├── commands/               # CLI command implementations
+│   │   ├── __init__.py
+│   │   ├── convert.py          # Format conversion command
+│   │   ├── generate.py         # Document generation command
+│   │   └── validate.py         # Data validation command
+│   └── core/                   # Core functionality
+│       ├── __init__.py
+│       ├── data_handler.py     # JSON/YAML data handling
+│       └── style_loader.py     # Style configuration loading
+├── tests/
+│   ├── test_converter.py       # Conversion tests
+│   ├── test_data_handler.py    # Data handling tests
+│   ├── test_data_validation.py # Legacy validation tests
+│   ├── test_document_generation.py # Document generation tests
+│   └── test_style_loader.py    # Style loading tests
+└── examples/
+    ├── sample_cv.yaml          # Example CV in YAML format
+    ├── comprehensive_cv.yaml   # Example using ALL schema fields
+    ├── cv_with_detailed_skills.json  # Example with mixed skill formats
+    ├── modern_style.json       # Modern style configuration
+    └── elegant_style.yaml      # Elegant style configuration
 ```
 
 ## Dependencies
 
 -   `python-docx`: For creating and modifying Word documents.
--   `jsonschema`: For validating JSON data against the schema.
+-   `jsonschema`: For validating data against the schema.
+-   `PyYAML`: For YAML file support.
 
 These are managed via `pyproject.toml`.
 

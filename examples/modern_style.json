@@ -1,0 +1,24 @@
+{
+  "font_name": "Arial",
+  "font_size": 10,
+  "name_font_size": 16,
+  "heading_font_size": 12,
+  "margins": {
+    "top": 20,
+    "bottom": 20,
+    "left": 20,
+    "right": 20
+  },
+  "paragraph_spacing": {
+    "before": 0,
+    "after": 4,
+    "line_spacing": 1.15
+  },
+  "bullet_style": {
+    "left_indent": 0.75,
+    "first_line_indent": -0.25,
+    "line_spacing": 1.0,
+    "space_after": 4,
+    "space_before": 0
+  }
+}

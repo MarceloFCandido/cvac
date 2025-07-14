@@ -1,7 +1,12 @@
 import pytest
 import json
 import os
-from cv_to_docx import CVData
+import sys
+
+# Add src to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+
+from cvac.cv_to_docx import CVData
 
 @pytest.fixture
 def valid_cv_data():

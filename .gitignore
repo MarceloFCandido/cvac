@@ -10,6 +10,7 @@ venv/
 
 # Generated files
 *.docx
+!examples/*.docx
 *.egg-info/
 
 # Pytest cache

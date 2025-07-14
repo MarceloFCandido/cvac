@@ -1,12 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cvac"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
     "python-docx>=0.8.11",
     "jsonschema>=4.0.0",
+    "PyYAML>=6.0",
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
 ]
+
+[project.scripts]
+cvac = "cvac.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

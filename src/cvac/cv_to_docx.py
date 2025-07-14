@@ -9,7 +9,7 @@ from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
 from docx.enum.style import WD_STYLE_TYPE
 import jsonschema
-from style import STYLE_CONFIG
+from .style import STYLE_CONFIG
 
 class CVData:
     """Handles loading, validation, and access to CV data."""
@@ -339,23 +339,29 @@ class DocxGenerator:
         return name
 
 def main():
+    """Backwards compatibility wrapper - redirects to new CLI."""
+    # Import here to avoid circular imports
+    from .__main__ import main as cvac_main
+    
+    # Convert old-style arguments to new CLI format
     if len(sys.argv) < 2:
         print("Usage: python cv-to-docx.py <path_to_cv.json> [output_path.docx]")
+        print("\nNote: This script is deprecated. Please use the new CLI:")
+        print("  cvac generate <input> <output>")
         sys.exit(1)
-
-    json_file = sys.argv[1]
-    output_file = sys.argv[2] if len(sys.argv) > 2 else "resume-generated.docx"
     
-    # Assume schema is in the `schema` directory, relative to the project root.
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    # Go up one level from `src` to the project root
-    project_root = os.path.dirname(script_dir)
-    schema_file = os.path.join(project_root, 'schema', 'cv.schema.json')
-
-
-    cv_data = CVData(json_file, schema_file)
-    generator = DocxGenerator(cv_data, STYLE_CONFIG)
-    generator.generate(output_file)
+    # Prepare arguments for new CLI
+    new_args = ['cvac', 'generate']
+    new_args.extend(sys.argv[1:])
+    
+    # Replace sys.argv temporarily
+    old_argv = sys.argv
+    sys.argv = new_args
+    
+    try:
+        return cvac_main()
+    finally:
+        sys.argv = old_argv
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,259 @@
+# Comprehensive CV Example - All Schema Fields
+# This example demonstrates every possible field defined in the CV schema
+# Note: Some fields (marked with *) are not yet rendered by the document generator
+
+personalInfo:
+  firstName: John
+  middleName: Alexander
+  lastName: Doe
+  email: john.doe@example.com
+  phone: "+1 (555) 123-4567"
+  location:
+    city: San Francisco
+    state: CA
+    country: USA
+    postalCode: "94105"
+  linkedIn: https://linkedin.com/in/johndoe
+  githubUrl: https://github.com/johndoe
+  personalWebsite: https://johndoe.dev  # Note: cv_to_docx.py looks for "website" instead
+
+# Professional summary is in schema but not yet rendered by document generator *
+professionalSummary: |
+  Seasoned software engineer with 10+ years of experience building scalable web applications
+  and leading high-performing development teams. Passionate about clean code, DevOps practices,
+  and mentoring junior developers. Strong expertise in cloud architecture and microservices.
+
+workExperience:
+  - company: Tech Solutions Inc.
+    position: Senior Software Engineer
+    location: San Francisco, CA  # This field is in schema but not rendered
+    startDate: "2020-01"
+    current: true
+    description: Leading development of cloud-native applications and microservices architecture
+    achievements:
+      - Architected microservices platform serving 1M+ users daily
+      - Reduced deployment time by 70% through CI/CD automation
+      - Mentored team of 5 junior developers, improving team velocity by 40%
+      - Led migration from monolith to microservices, reducing costs by 35%
+    technologies:  # This field is in schema but not rendered
+      - Kubernetes
+      - Docker
+      - AWS
+      - Python
+      - React
+
+  - company: StartupXYZ
+    position: Full Stack Developer
+    location: Remote
+    startDate: "2018-06"
+    endDate: "2019-12"
+    current: false
+    description: Built scalable web applications using modern technologies
+    achievements:
+      - Developed RESTful APIs handling 10K requests/second
+      - Implemented real-time features using WebSockets
+      - Reduced page load time by 60% through optimization
+    technologies:
+      - Node.js
+      - MongoDB
+      - React
+      - Redis
+
+  - company: Digital Agency Co.
+    position: Junior Developer
+    location: Boston, MA
+    startDate: "2015-08"
+    endDate: "2018-05"
+    description: Worked on various client projects and internal tools
+    achievements:
+      - Built 20+ responsive websites for clients
+      - Automated deployment process saving 10 hours/week
+
+education:
+  - institution: University of California, Berkeley
+    degree: Bachelor of Science
+    field: Computer Science
+    location: Berkeley, CA  # This field is in schema but not rendered
+    graduationDate: "2015-05"
+    gpa: 3.85  # This field is in schema but not rendered
+    honors:  # This field is in schema but not rendered
+      - Magna Cum Laude
+      - Dean's List (6 semesters)
+      - Outstanding Senior Award
+    relevantCourses:  # This field is in schema but not rendered
+      - Advanced Algorithms
+      - Distributed Systems
+      - Machine Learning
+      - Database Systems
+      - Software Engineering
+
+  - institution: Stanford University
+    degree: Master of Science
+    field: Computer Science - AI Specialization
+    location: Stanford, CA
+    graduationDate: "2018-05"
+    gpa: 3.92
+    honors:
+      - Graduate with Distinction
+    relevantCourses:
+      - Deep Learning
+      - Natural Language Processing
+      - Computer Vision
+
+skills:
+  # Mix of simple strings and detailed objects
+  - Python
+  - JavaScript
+  - name: React
+    level: expert
+    yearsOfExperience: 6
+  - name: Node.js
+    level: advanced
+    yearsOfExperience: 5
+  - Docker
+  - name: Kubernetes
+    level: advanced
+    yearsOfExperience: 3
+  - name: AWS
+    level: expert
+    yearsOfExperience: 7
+  - PostgreSQL
+  - MongoDB
+  - name: Machine Learning
+    level: intermediate
+    yearsOfExperience: 2
+  - Git
+  - CI/CD
+  - name: System Design
+    level: advanced
+
+languages:
+  - language: English
+    native: true
+  - language: Spanish
+    proficiency: C1
+  - language: French
+    proficiency: B2
+  - language: Mandarin Chinese
+    proficiency: A2
+
+# The following sections are in the schema but not yet rendered by the document generator *
+
+certifications:
+  - name: AWS Certified Solutions Architect - Professional
+    issuer: Amazon Web Services
+    dateObtained: "2022-03-15"
+    expiryDate: "2025-03-15"
+    credentialId: "AWS-PSA-123456"
+    credentialUrl: https://aws.amazon.com/verification/123456
+    
+  - name: Certified Kubernetes Administrator (CKA)
+    issuer: Cloud Native Computing Foundation
+    dateObtained: "2021-11-20"
+    expiryDate: "2024-11-20"
+    credentialId: "CKA-2021-123"
+    credentialUrl: https://cncf.io/verify/CKA-2021-123
+
+  - name: Google Cloud Professional Cloud Architect
+    issuer: Google Cloud
+    dateObtained: "2023-01-10"
+    credentialId: "GCP-PCA-789"
+
+projects:
+  - name: Open Source Contribution - AsyncAPI
+    description: Major contributor to AsyncAPI specification and tooling
+    url: https://github.com/asyncapi/asyncapi
+    startDate: "2021-06"
+    endDate: "2023-12"
+    technologies:
+      - JavaScript
+      - Node.js
+      - React
+    highlights:
+      - Implemented new features for the AsyncAPI Generator
+      - Fixed 50+ bugs and improved documentation
+      - Became a core maintainer of the project
+    
+  - name: Personal Blog Platform
+    description: Built a modern blogging platform with AI-powered content recommendations
+    url: https://myblogplatform.dev
+    startDate: "2023-01"
+    technologies:
+      - Next.js
+      - PostgreSQL
+      - OpenAI API
+      - Vercel
+    highlights:
+      - Handles 50K+ monthly active users
+      - Implemented custom CMS with markdown support
+      - AI-powered content recommendations increased engagement by 45%
+
+publications:
+  - title: "Microservices at Scale: Lessons from Production"
+    authors:
+      - John Doe
+      - Jane Smith
+      - Robert Johnson
+    publisher: IEEE Software
+    date: "2023-06-15"
+    url: https://ieeexplore.ieee.org/document/123456
+    doi: "10.1109/MS.2023.123456"
+    
+  - title: "Optimizing Kubernetes for Large-Scale Applications"
+    authors:
+      - John Doe
+    publisher: CNCF Blog
+    date: "2022-09-20"
+    url: https://cncf.io/blog/optimizing-k8s
+
+awards:
+  - name: Employee of the Year
+    issuer: Tech Solutions Inc.
+    date: "2022-12-15"
+    description: Recognized for exceptional performance and leadership in cloud migration project
+    
+  - name: Best Paper Award
+    issuer: International Conference on Cloud Computing
+    date: "2023-07-10"
+    description: For paper on "Microservices at Scale"
+    
+  - name: Hackathon Winner - AI for Good
+    issuer: TechCrunch Disrupt
+    date: "2021-09-25"
+    description: Built AI solution for predicting natural disasters
+
+volunteerWork:
+  - organization: Code for America
+    role: Technical Mentor
+    startDate: "2020-01"
+    endDate: "2022-12"
+    description: Mentored 20+ aspiring developers from underrepresented backgrounds
+    
+  - organization: Local High School
+    role: Computer Science Instructor
+    startDate: "2023-01"
+    description: Teaching introduction to programming to high school students every Saturday
+
+references:
+  - name: Jane Smith
+    relationship: Former Manager at Tech Solutions Inc.
+    company: Tech Solutions Inc.
+    email: jane.smith@techsolutions.com
+    phone: "+1 (555) 234-5678"
+    
+  - name: Dr. Robert Johnson
+    relationship: Graduate Advisor at Stanford University
+    company: Stanford University
+    email: rjohnson@stanford.edu
+    
+  - name: Maria Garcia
+    relationship: Team Lead at StartupXYZ
+    company: StartupXYZ (now at Google)
+    email: mgarcia@example.com
+    phone: "+1 (555) 345-6789"
+
+metadata:
+  lastUpdated: "2024-01-15"
+  version: "2.1.0"
+  template: "comprehensive"
+

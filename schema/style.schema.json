@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CV Style Configuration Schema",
+  "description": "Schema for CVaC style configuration files",
+  "type": "object",
+  "properties": {
+    "font_name": {
+      "type": "string",
+      "description": "Font family for document text",
+      "examples": ["Calibri", "Arial", "Times New Roman", "Georgia"]
+    },
+    "font_size": {
+      "type": "number",
+      "description": "Base font size in points",
+      "minimum": 8,
+      "maximum": 14
+    },
+    "name_font_size": {
+      "type": "number",
+      "description": "Font size for the name header in points",
+      "minimum": 12,
+      "maximum": 24
+    },
+    "heading_font_size": {
+      "type": "number",
+      "description": "Font size for section headings in points",
+      "minimum": 10,
+      "maximum": 16
+    },
+    "margins": {
+      "type": "object",
+      "description": "Document margins in millimeters",
+      "properties": {
+        "top": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 50
+        },
+        "bottom": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 50
+        },
+        "left": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 50
+        },
+        "right": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 50
+        }
+      },
+      "additionalProperties": false
+    },
+    "paragraph_spacing": {
+      "type": "object",
+      "description": "Paragraph spacing configuration",
+      "properties": {
+        "before": {
+          "type": "number",
+          "description": "Space before paragraph in points",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "after": {
+          "type": "number",
+          "description": "Space after paragraph in points",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "line_spacing": {
+          "type": "number",
+          "description": "Line spacing multiplier",
+          "minimum": 1.0,
+          "maximum": 2.0
+        }
+      },
+      "additionalProperties": false
+    },
+    "bullet_style": {
+      "type": "object",
+      "description": "Bullet point styling configuration",
+      "properties": {
+        "left_indent": {
+          "type": "number",
+          "description": "Left indent in centimeters",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "first_line_indent": {
+          "type": "number",
+          "description": "First line indent in centimeters (usually negative)",
+          "minimum": -2,
+          "maximum": 2
+        },
+        "line_spacing": {
+          "type": "number",
+          "description": "Line spacing for bullet points",
+          "minimum": 1.0,
+          "maximum": 2.0
+        },
+        "space_after": {
+          "type": "number",
+          "description": "Space after bullet point in points",
+          "minimum": 0,
+          "maximum": 20
+        },
+        "space_before": {
+          "type": "number",
+          "description": "Space before bullet point in points",
+          "minimum": 0,
+          "maximum": 20
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
