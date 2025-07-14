@@ -257,7 +257,7 @@ CVaC now supports external style configuration files in JSON or YAML format. You
 - Paragraph spacing
 - Bullet point styling
 
-See `examples/modern_style.json` and `examples/elegant_style.yaml` for examples.
+See `examples/modern-style.json` and `examples/standard-style.yaml` for examples.
 
 ## Project Structure
 
