@@ -184,6 +184,10 @@
               "yearsOfExperience": {
                 "type": "number",
                 "minimum": 0
+              },
+              "category": {
+                "type": "string",
+                "description": "Category or group for the skill (e.g., Programming Languages, Databases)"
               }
             }
           }

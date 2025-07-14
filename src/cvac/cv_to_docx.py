@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from datetime import datetime
+from collections import defaultdict
 from docx import Document
 from docx.shared import Pt, Cm, Mm
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -76,10 +77,17 @@ class DocxGenerator:
     def generate(self, output_path):
         """Generates and saves the full CV document."""
         self._create_personal_info_section()
+        self._create_summary_section()
         self._create_experience_section()
         self._create_education_section()
-        self._create_languages_section()
+        self._create_projects_section()
         self._create_skills_section()
+        self._create_certifications_section()
+        self._create_publications_section()
+        self._create_awards_section()
+        self._create_volunteer_section()
+        self._create_languages_section()
+        self._create_references_section()
         self.doc.save(output_path)
         print(f"CV saved as {output_path}")
 
@@ -116,6 +124,18 @@ class DocxGenerator:
                 contact_row2_items.append({"text": self._extract_domain(personal_info[field]), "url": personal_info[field]})
         self._add_contact_row(contact_row2_items, after=3)
 
+    def _create_summary_section(self):
+        """Creates the professional summary section."""
+        summary = self.cv_data.data.get("professionalSummary")
+        if not summary:
+            return
+        
+        self._add_section_header("PROFESSIONAL SUMMARY")
+        summary_para = self.doc.add_paragraph()
+        self._set_paragraph_spacing(summary_para, after=3)
+        summary_run = summary_para.add_run(summary)
+        self._set_font_properties(summary_run)
+
     def _add_contact_row(self, items, after=2):
         items = [item for item in items if item.get("text")]
         if not items:
@@ -146,6 +166,12 @@ class DocxGenerator:
                 company_run = company_para.add_run(job["company"])
                 self._set_font_properties(company_run, bold=True)
                 
+                # Add location if available
+                if job.get("location"):
+                    company_para.add_run(f" | {job['location']}")
+                    for run in company_para.runs[-1:]:
+                        self._set_font_properties(run, bold=True)
+                
                 company_url = self._find_company_url(job)
                 if company_url:
                     company_para.add_run(" (")
@@ -175,6 +201,15 @@ class DocxGenerator:
             for achievement in job.get("achievements", []):
                 if achievement:
                     self._add_bullet_point(achievement if achievement.endswith('.') else f"{achievement}.")
+            
+            # Add technologies if available
+            if job.get("technologies"):
+                tech_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(tech_para, after=3)
+                tech_run = tech_para.add_run("Technologies used: ")
+                self._set_font_properties(tech_run, bold=True)
+                tech_list_run = tech_para.add_run(", ".join(job["technologies"]))
+                self._set_font_properties(tech_list_run)
 
     def _create_education_section(self):
         education = self.cv_data.data.get("education", [])
@@ -195,6 +230,12 @@ class DocxGenerator:
                 self._set_paragraph_spacing(degree_para)
                 degree_run = degree_para.add_run(" | ".join(filter(None, degree_parts)))
                 self._set_font_properties(degree_run)
+                
+                # Add GPA if available
+                if edu.get("gpa"):
+                    degree_para.add_run(f" | GPA: {edu['gpa']:.2f}/4.0")
+                    for run in degree_para.runs[-1:]:
+                        self._set_font_properties(run)
 
             loc_grad_parts = [edu.get("location")]
             if edu.get("graduationDate"):
@@ -204,6 +245,73 @@ class DocxGenerator:
                 self._set_paragraph_spacing(loc_date_para, after=3)
                 loc_date_run = loc_date_para.add_run(" | ".join(filter(None, loc_grad_parts)))
                 self._set_font_properties(loc_date_run)
+            
+            # Add honors if available
+            for honor in edu.get("honors", []):
+                if honor:
+                    self._add_bullet_point(honor)
+            
+            # Add relevant courses if available
+            if edu.get("relevantCourses"):
+                courses_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(courses_para, after=3)
+                courses_run = courses_para.add_run("Relevant Courses: ")
+                self._set_font_properties(courses_run, bold=True)
+                courses_list_run = courses_para.add_run(", ".join(edu["relevantCourses"]))
+                self._set_font_properties(courses_list_run)
+
+    def _create_projects_section(self):
+        """Creates the projects section."""
+        projects = self.cv_data.data.get("projects", [])
+        if not projects:
+            return
+        
+        self._add_section_header("PROJECTS")
+        for project in projects:
+            # Project name with optional URL
+            if project.get("name"):
+                project_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(project_para)
+                
+                if project.get("url"):
+                    self._add_hyperlink(project_para, project["url"], project["name"])
+                    # Make the hyperlink bold
+                    for run in project_para.runs:
+                        self._set_font_properties(run, bold=True)
+                else:
+                    project_run = project_para.add_run(project["name"])
+                    self._set_font_properties(project_run, bold=True)
+            
+            # Dates
+            start_date = self._format_date(project.get("startDate"))
+            end_date = self._format_date(project.get("endDate"))
+            if start_date or end_date:
+                date_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(date_para)
+                date_range = f"{start_date} - {end_date}" if start_date and end_date else start_date or end_date or ""
+                date_run = date_para.add_run(date_range)
+                self._set_font_properties(date_run)
+            
+            # Description
+            if project.get("description"):
+                desc_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(desc_para)
+                desc_run = desc_para.add_run(project["description"])
+                self._set_font_properties(desc_run)
+            
+            # Highlights
+            for highlight in project.get("highlights", []):
+                if highlight:
+                    self._add_bullet_point(highlight if highlight.endswith('.') else f"{highlight}.")
+            
+            # Technologies
+            if project.get("technologies"):
+                tech_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(tech_para, after=3)
+                tech_run = tech_para.add_run("Technologies: ")
+                self._set_font_properties(tech_run, bold=True)
+                tech_list_run = tech_para.add_run(", ".join(project["technologies"]))
+                self._set_font_properties(tech_list_run)
 
     def _create_languages_section(self):
         languages = self.cv_data.data.get("languages", [])
@@ -223,23 +331,281 @@ class DocxGenerator:
         if not skills:
             return
         
-        self._add_section_header("TECHNOLOGIES")
-        skill_names = []
-        for skill in skills:
-            if isinstance(skill, dict):
-                skill_names.append(skill.get("name"))
-            elif isinstance(skill, str):
-                skill_names.append(skill)
+        # Check if skills have categories
+        has_categories = any(isinstance(skill, dict) and skill.get("category") for skill in skills)
         
-        skill_names = list(filter(None, skill_names))
-        if skill_names:
-            skills_text = ", ".join(skill_names)
-            if not skills_text.endswith("."):
-                skills_text += "."
+        self._add_section_header("SKILLS" if has_categories else "TECHNOLOGIES")
+        
+        if has_categories:
+            # Group skills by category
+            from collections import defaultdict
+            categories = defaultdict(list)
+            uncategorized = []
             
-            tech_para = self.doc.add_paragraph()
-            tech_run = tech_para.add_run(skills_text)
-            self._set_font_properties(tech_run)
+            for skill in skills:
+                if isinstance(skill, dict):
+                    category = skill.get("category", "Other")
+                    skill_info = skill.get("name", "")
+                    if skill.get("level"):
+                        skill_info += f" ({skill['level']})"
+                    if category:
+                        categories[category].append(skill_info)
+                    else:
+                        uncategorized.append(skill_info)
+                elif isinstance(skill, str):
+                    uncategorized.append(skill)
+            
+            # Render categorized skills
+            for category, skill_list in categories.items():
+                if skill_list:
+                    cat_para = self.doc.add_paragraph()
+                    self._set_paragraph_spacing(cat_para)
+                    cat_run = cat_para.add_run(f"{category}: ")
+                    self._set_font_properties(cat_run, bold=True)
+                    skills_run = cat_para.add_run(", ".join(skill_list))
+                    self._set_font_properties(skills_run)
+            
+            # Render uncategorized skills
+            if uncategorized:
+                uncat_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(uncat_para)
+                uncat_run = uncat_para.add_run("Other: " if categories else "")
+                if categories:
+                    self._set_font_properties(uncat_run, bold=True)
+                skills_run = uncat_para.add_run(", ".join(uncategorized))
+                self._set_font_properties(skills_run)
+        else:
+            # Simple list format (existing behavior)
+            skill_names = []
+            for skill in skills:
+                if isinstance(skill, dict):
+                    name = skill.get("name")
+                    if name:
+                        if skill.get("level"):
+                            skill_names.append(f"{name} ({skill['level']})")
+                        else:
+                            skill_names.append(name)
+                elif isinstance(skill, str):
+                    skill_names.append(skill)
+            
+            skill_names = list(filter(None, skill_names))
+            if skill_names:
+                skills_text = ", ".join(skill_names)
+                if not skills_text.endswith("."):
+                    skills_text += "."
+                
+                tech_para = self.doc.add_paragraph()
+                tech_run = tech_para.add_run(skills_text)
+                self._set_font_properties(tech_run)
+
+    def _create_certifications_section(self):
+        """Creates the certifications section."""
+        certifications = self.cv_data.data.get("certifications", [])
+        if not certifications:
+            return
+        
+        self._add_section_header("CERTIFICATIONS")
+        for cert in certifications:
+            cert_para = self.doc.add_paragraph()
+            self._set_paragraph_spacing(cert_para, after=3)
+            
+            # Certification name (bold)
+            if cert.get("name"):
+                cert_run = cert_para.add_run(cert["name"])
+                self._set_font_properties(cert_run, bold=True)
+            
+            # Issuer
+            if cert.get("issuer"):
+                cert_para.add_run(f", {cert['issuer']}")
+                for run in cert_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Date obtained
+            if cert.get("dateObtained"):
+                date_str = self._format_date(cert["dateObtained"])
+                cert_para.add_run(f", Issued {date_str}")
+                for run in cert_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Expiry date
+            if cert.get("expiryDate"):
+                expiry_str = self._format_date(cert["expiryDate"])
+                cert_para.add_run(f" (Expires {expiry_str})")
+                for run in cert_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Credential URL
+            if cert.get("credentialUrl"):
+                cert_para.add_run(" ")
+                self._add_hyperlink(cert_para, cert["credentialUrl"], "[View Certificate]")
+                for run in cert_para.runs:
+                    if run.text and run.text not in ["[View Certificate]"]:
+                        self._set_font_properties(run)
+
+    def _create_publications_section(self):
+        """Creates the publications section."""
+        publications = self.cv_data.data.get("publications", [])
+        if not publications:
+            return
+        
+        self._add_section_header("PUBLICATIONS")
+        for pub in publications:
+            pub_para = self.doc.add_paragraph()
+            self._set_paragraph_spacing(pub_para, after=3)
+            
+            # Title (bold)
+            if pub.get("title"):
+                title_run = pub_para.add_run(pub["title"])
+                self._set_font_properties(title_run, bold=True)
+            
+            # Authors
+            if pub.get("authors") and isinstance(pub["authors"], list):
+                authors_str = ", ".join(pub["authors"])
+                pub_para.add_run(f". {authors_str}")
+                for run in pub_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Publisher
+            if pub.get("publisher"):
+                pub_para.add_run(f". {pub['publisher']}")
+                for run in pub_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Date
+            if pub.get("date"):
+                date_str = self._format_date(pub["date"])
+                pub_para.add_run(f", {date_str}")
+                for run in pub_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # DOI or URL
+            if pub.get("doi"):
+                pub_para.add_run(" ")
+                doi_url = f"https://doi.org/{pub['doi']}"
+                self._add_hyperlink(pub_para, doi_url, f"DOI: {pub['doi']}")
+            elif pub.get("url"):
+                pub_para.add_run(" ")
+                self._add_hyperlink(pub_para, pub["url"], "[Link]")
+
+    def _create_awards_section(self):
+        """Creates the awards section."""
+        awards = self.cv_data.data.get("awards", [])
+        if not awards:
+            return
+        
+        self._add_section_header("AWARDS & HONORS")
+        for award in awards:
+            award_para = self.doc.add_paragraph()
+            self._set_paragraph_spacing(award_para, after=3)
+            
+            # Award name (bold)
+            if award.get("name"):
+                award_run = award_para.add_run(award["name"])
+                self._set_font_properties(award_run, bold=True)
+            
+            # Issuer
+            if award.get("issuer"):
+                award_para.add_run(f", {award['issuer']}")
+                for run in award_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Date
+            if award.get("date"):
+                date_str = self._format_date(award["date"])
+                award_para.add_run(f", {date_str}")
+                for run in award_para.runs[-1:]:
+                    self._set_font_properties(run)
+            
+            # Description
+            if award.get("description"):
+                desc_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(desc_para, after=3)
+                desc_run = desc_para.add_run(award["description"])
+                self._set_font_properties(desc_run)
+
+    def _create_volunteer_section(self):
+        """Creates the volunteer work section."""
+        volunteer_work = self.cv_data.data.get("volunteerWork", [])
+        if not volunteer_work:
+            return
+        
+        self._add_section_header("VOLUNTEER WORK")
+        for work in volunteer_work:
+            # Organization name
+            if work.get("organization"):
+                org_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(org_para)
+                org_run = org_para.add_run(work["organization"])
+                self._set_font_properties(org_run, bold=True)
+            
+            # Role
+            if work.get("role"):
+                role_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(role_para)
+                role_run = role_para.add_run(work["role"])
+                self._set_font_properties(role_run)
+            
+            # Dates
+            start_date = self._format_date(work.get("startDate"))
+            end_date = self._format_date(work.get("endDate"))
+            if start_date or end_date:
+                date_para = self.doc.add_paragraph()
+                self._set_paragraph_spacing(date_para)
+                date_range = f"{start_date} - {end_date}" if start_date and end_date else start_date or end_date or ""
+                date_run = date_para.add_run(date_range)
+                self._set_font_properties(date_run)
+            
+            # Description
+            if work.get("description"):
+                self._add_bullet_point(work["description"])
+
+    def _create_references_section(self):
+        """Creates the references section."""
+        references = self.cv_data.data.get("references", [])
+        
+        # By default, just add "References available upon request"
+        # unless actual reference data is provided
+        if not references:
+            return
+        
+        self._add_section_header("REFERENCES")
+        
+        if len(references) == 0:
+            ref_para = self.doc.add_paragraph()
+            self._set_paragraph_spacing(ref_para)
+            ref_run = ref_para.add_run("References available upon request.")
+            self._set_font_properties(ref_run)
+        else:
+            # If references are explicitly provided, show them
+            for ref in references:
+                if ref.get("name"):
+                    ref_para = self.doc.add_paragraph()
+                    self._set_paragraph_spacing(ref_para)
+                    ref_run = ref_para.add_run(ref["name"])
+                    self._set_font_properties(ref_run, bold=True)
+                    
+                    # Add relationship and company on same line
+                    ref_details = []
+                    if ref.get("relationship"):
+                        ref_details.append(ref["relationship"])
+                    if ref.get("company"):
+                        ref_details.append(ref["company"])
+                    if ref_details:
+                        ref_para.add_run(f", {', '.join(ref_details)}")
+                        for run in ref_para.runs[-1:]:
+                            self._set_font_properties(run)
+                
+                # Contact info on next line
+                contact_parts = []
+                if ref.get("email"):
+                    contact_parts.append(ref["email"])
+                if ref.get("phone"):
+                    contact_parts.append(ref["phone"])
+                if contact_parts:
+                    contact_para = self.doc.add_paragraph()
+                    self._set_paragraph_spacing(contact_para, after=3)
+                    contact_run = contact_para.add_run(" | ".join(contact_parts))
+                    self._set_font_properties(contact_run)
 
     def _add_section_header(self, text):
         header = self.doc.add_paragraph()
@@ -287,12 +653,31 @@ class DocxGenerator:
 
     @staticmethod
     def _format_date(date_str):
+        """Formats date strings to human-readable format.
+        
+        Handles multiple date formats:
+        - YYYY-MM-DD → January 15, 2025
+        - YYYY-MM → January 2025
+        - YYYY → 2025
+        """
         if not date_str:
             return ""
-        try:
-            return datetime.strptime(date_str, "%Y-%m").strftime("%B %Y")
-        except ValueError:
-            return date_str
+        
+        # Try different date formats
+        date_formats = [
+            ("%Y-%m-%d", "%B %d, %Y"),  # Full date
+            ("%Y-%m", "%B %Y"),          # Year and month
+            ("%Y", "%Y")                 # Year only
+        ]
+        
+        for input_fmt, output_fmt in date_formats:
+            try:
+                return datetime.strptime(date_str, input_fmt).strftime(output_fmt)
+            except ValueError:
+                continue
+        
+        # If no format matches, return the original string
+        return date_str
 
     @staticmethod
     def _extract_domain(url):

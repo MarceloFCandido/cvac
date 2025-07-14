@@ -1,0 +1,222 @@
+personalInfo:
+  firstName: Jane
+  middleName: Elizabeth
+  lastName: Developer
+  email: jane.developer@email.com
+  phone: "+1 (555) 123-4567"
+  location:
+    city: San Francisco
+    state: California
+    country: USA
+    postalCode: "94105"
+  linkedIn: https://linkedin.com/in/janedeveloper
+  personalWebsite: https://janedeveloper.com
+  githubUrl: https://github.com/janedeveloper
+
+professionalSummary: |
+  Experienced software engineer with 8+ years developing scalable web applications
+  and distributed systems. Passionate about clean code, DevOps practices, and
+  mentoring junior developers. Strong track record of leading cross-functional teams
+  and delivering complex projects on time and within budget.
+
+workExperience:
+  - position: Senior Software Engineer
+    company: TechCorp Inc.
+    companyUrl: https://techcorp.example.com
+    location: San Francisco, CA
+    startDate: "2021-03"
+    current: true
+    description: Leading development of microservices architecture for e-commerce platform
+    achievements:
+      - Reduced API response time by 60% through optimization and caching strategies
+      - Mentored team of 5 junior developers, improving code review efficiency by 40%
+      - Implemented CI/CD pipeline reducing deployment time from 2 hours to 15 minutes
+    technologies:
+      - Node.js
+      - React
+      - AWS
+      - Docker
+      - Kubernetes
+
+  - position: Software Engineer II
+    company: StartupXYZ
+    location: Palo Alto, CA
+    startDate: "2018-06"
+    endDate: "2021-02"
+    description: Full-stack development for SaaS productivity platform
+    achievements:
+      - Built real-time collaboration features serving 10K+ concurrent users
+      - Led migration from monolithic to microservices architecture
+      - Reduced infrastructure costs by 35% through AWS optimization
+    technologies:
+      - Python
+      - Django
+      - PostgreSQL
+      - Redis
+      - Vue.js
+
+education:
+  - degree: Master of Science
+    field: Computer Science
+    institution: Stanford University
+    location: Stanford, CA
+    graduationDate: "2018-05"
+    gpa: 3.85
+    honors:
+      - Dean's List (3 semesters)
+      - Graduate Research Fellowship
+    relevantCourses:
+      - Advanced Algorithms
+      - Distributed Systems
+      - Machine Learning
+      - Software Engineering
+
+  - degree: Bachelor of Science
+    field: Computer Engineering
+    institution: UC Berkeley
+    location: Berkeley, CA
+    graduationDate: "2016-05"
+    gpa: 3.72
+
+projects:
+  - name: OpenSourceContributor
+    description: Major contributor to popular open-source web framework
+    url: https://github.com/framework/framework
+    startDate: "2020-01"
+    technologies:
+      - TypeScript
+      - Node.js
+      - Jest
+    highlights:
+      - Implemented new routing system improving performance by 25%
+      - Fixed 50+ issues and reviewed 100+ pull requests
+      - Wrote comprehensive documentation for new features
+
+  - name: AI Resume Analyzer
+    description: Machine learning tool for resume parsing and job matching
+    url: https://github.com/janedeveloper/ai-resume
+    startDate: "2022-06"
+    endDate: "2023-01"
+    technologies:
+      - Python
+      - TensorFlow
+      - Flask
+      - React
+    highlights:
+      - Achieved 92% accuracy in skill extraction
+      - Processed 10K+ resumes for beta users
+
+skills:
+  - name: JavaScript
+    level: expert
+    category: Programming Languages
+  - name: Python
+    level: expert
+    category: Programming Languages
+  - name: Java
+    level: advanced
+    category: Programming Languages
+  - name: Go
+    level: intermediate
+    category: Programming Languages
+  - name: PostgreSQL
+    level: advanced
+    category: Databases
+  - name: MongoDB
+    level: advanced
+    category: Databases
+  - name: Redis
+    level: advanced
+    category: Databases
+  - name: AWS
+    level: expert
+    category: Cloud Platforms
+  - name: Google Cloud
+    level: intermediate
+    category: Cloud Platforms
+  - name: Docker
+    level: expert
+    category: DevOps
+  - name: Kubernetes
+    level: advanced
+    category: DevOps
+  - name: Jenkins
+    level: advanced
+    category: DevOps
+
+certifications:
+  - name: AWS Certified Solutions Architect - Professional
+    issuer: Amazon Web Services
+    dateObtained: "2022-08-15"
+    expiryDate: "2025-08-15"
+    credentialId: AWS-PSA-123456
+    credentialUrl: https://aws.amazon.com/verification/123456
+
+  - name: Certified Kubernetes Administrator
+    issuer: The Linux Foundation
+    dateObtained: "2023-03-20"
+    expiryDate: "2026-03-20"
+    credentialUrl: https://training.linuxfoundation.org/verify/123456
+
+publications:
+  - title: "Optimizing Microservices Communication in Distributed Systems"
+    authors:
+      - Jane E. Developer
+      - John Doe
+      - Mary Smith
+    publisher: IEEE Computer Society
+    date: "2023-06"
+    doi: "10.1109/COMPUTER.2023.123456"
+    url: https://doi.org/10.1109/COMPUTER.2023.123456
+
+  - title: "A Novel Approach to Real-Time Collaboration in Web Applications"
+    authors:
+      - Jane E. Developer
+      - Robert Johnson
+    publisher: ACM Digital Library
+    date: "2022-11"
+    url: https://dl.acm.org/doi/10.1145/123456
+
+awards:
+  - name: Excellence in Engineering Award
+    issuer: TechCorp Inc.
+    date: "2023-12"
+    description: Recognized for outstanding contributions to platform reliability and team leadership
+
+  - name: Best Paper Award
+    issuer: International Conference on Software Engineering
+    date: "2023-06"
+    description: For research on microservices optimization techniques
+
+volunteerWork:
+  - organization: Code for Good
+    role: Technical Lead
+    startDate: "2020-01"
+    description: Leading team of volunteer developers creating applications for non-profits
+    
+  - organization: Women in Tech Mentorship Program
+    role: Mentor
+    startDate: "2019-06"
+    endDate: "2023-12"
+    description: Mentored 15+ early-career women engineers in technical and career development
+
+languages:
+  - language: English
+    native: true
+  - language: Spanish
+    proficiency: B2
+  - language: Mandarin Chinese
+    proficiency: A2
+
+references:
+  - name: Dr. Michael Thompson
+    relationship: Former Manager
+    company: TechCorp Inc.
+    email: m.thompson@techcorp.com
+    phone: "+1 (555) 987-6543"
+    
+  - name: Sarah Chen
+    relationship: Technical Director
+    company: StartupXYZ
+    email: sarah.chen@startupxyz.com
+    phone: "+1 (555) 456-7890"

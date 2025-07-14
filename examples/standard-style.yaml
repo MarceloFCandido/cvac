@@ -1,0 +1,19 @@
+font_name: Calibri
+font_size: 11
+name_font_size: 14
+heading_font_size: 11
+margins:
+  top: 15
+  bottom: 15
+  left: 15
+  right: 15
+paragraph_spacing:
+  before: 0
+  after: 2
+  line_spacing: 1
+bullet_style:
+  left_indent: 0.5
+  first_line_indent: -0.25
+  line_spacing: 1
+  space_after: 3
+  space_before: 0
